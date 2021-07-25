@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -58,9 +59,9 @@ class User extends Authenticatable
     {
         return $this->hasOneThrough(
             Plan::class, Subscription::class,
-            'user_id', 'stripe_id', 'id', 'stripe_plan'
+            'user_id', 'stripe_id', 'id', 'stripe_price'
         )
-            ->whereNull('subscriptions.ends_at')
+            ->where('subscriptions.ends_at', '>=', Carbon::now())
             ->withDefault(Plan::free()->toArray());
     }
 }
