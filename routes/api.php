@@ -7,6 +7,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\StripeIntentController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\UserPlanAvailabilityController;
 use App\Http\Controllers\UserUsageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/user', UserController::class);
 Route::get('/user/usage', UserUsageController::class);
+Route::get('/user/plan_availability', UserPlanAvailabilityController::class);
 
 Route::post('/login', LoginController::class);
 Route::post('/logout', LogoutController::class);
@@ -37,3 +39,4 @@ Route::get('/plans', PlanController::class);
 
 Route::get('/subscriptions/intent', StripeIntentController::class);
 Route::post('/subscriptions', [SubscriptionController::class, 'store']);
+Route::patch('/subscriptions', [SubscriptionController::class, 'update']);

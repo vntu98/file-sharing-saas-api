@@ -61,7 +61,12 @@ class User extends Authenticatable
             Plan::class, Subscription::class,
             'user_id', 'stripe_id', 'id', 'stripe_price'
         )
-            ->where('subscriptions.ends_at', '>=', Carbon::now())
+            ->whereNull('subscriptions.ends_at')
             ->withDefault(Plan::free()->toArray());
+    }
+
+    public function canDowngradeToPlan(Plan $plan)
+    {
+        return $this->usage() <= $plan->storage;
     }
 }
