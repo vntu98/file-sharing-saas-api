@@ -43,3 +43,4 @@ Route::post('/subscriptions', [SubscriptionController::class, 'store']);
 Route::patch('/subscriptions', [SubscriptionController::class, 'update']);
 
 Route::post('/files/{file:uuid}/links', [FileLinkController::class, 'store']);
+Route::get('/files/{file:uuid}/links', [FileLinkController::class, 'show']);
