@@ -15,6 +15,11 @@ class SubscriptionController extends Controller
 
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'plan' => ['nullable', 'exists:plans,slug'],
+            'token' => ['required']
+        ]);
+
         $plan = Plan::whereSlug($request->get('plan', 'medium'))->first();
 
         $request->user()->newSubscription('default', $plan->stripe_id)
@@ -23,6 +28,10 @@ class SubscriptionController extends Controller
 
     public function update(Request $request)
     {
+        $this->validate($request, [
+            'plan' => ['required', 'exists:plans,slug']
+        ]);
+
         $plan = Plan::whereSlug($request->plan)->first();
 
         if (!$request->user()->canDowngradeToPlan($plan)) {

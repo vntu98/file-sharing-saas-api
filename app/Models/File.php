@@ -11,6 +11,12 @@ class File extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'size',
+        'path'
+    ];
+
     public static function booted()
     {
         static::creating(function ($file) {
@@ -22,9 +28,8 @@ class File extends Model
         });
     }
 
-    protected $fillable = [
-        'name',
-        'path',
-        'size'
-    ];
+    public function links()
+    {
+        return $this->hasOne(FileLink::class);
+    }
 }
